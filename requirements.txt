@@ -1,7 +1,11 @@
 asgiref==3.5.2
 autopep8==1.6.0
+certifi==2022.6.15
+charset-normalizer==2.0.12
+cloudinary==1.29.0
 dj-database-url==0.5.0
 Django==4.0.4
+django-cloudinary-storage==0.3.0
 django-cors-headers==3.12.0
 django-filter==21.1
 django-heroku==0.3.1
@@ -9,6 +13,7 @@ django-phonenumber-field==6.3.0
 djangorestframework==3.13.1
 djangorestframework-simplejwt==5.2.0
 gunicorn==20.1.0
+idna==3.3
 mysqlclient==2.1.0
 phonenumberslite==8.12.50
 Pillow==9.1.1
@@ -16,9 +21,13 @@ psycopg2==2.9.3
 psycopg2-binary==2.9.3
 pycodestyle==2.8.0
 PyJWT==2.4.0
+python-dotenv==0.20.0
 pytz==2022.1
+requests==2.28.0
+six==1.16.0
 sqlparse==0.4.2
 toml==0.10.2
 typing==3.7.4.3
 tzdata==2022.1
+urllib3==1.26.9
 whitenoise==6.2.0

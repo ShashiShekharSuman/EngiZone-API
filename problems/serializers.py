@@ -8,7 +8,7 @@ from django.db.models import Count
 class TagSerializer(ModelSerializer):
     class Meta:
         model = Tag
-        fields = ['id', 'tag_name', 'tag_type', 'tag_discription']
+        fields = ['id', 'tag_name', 'tag_type', 'tag_description']
 
 
 class QuestionSerializer(ModelSerializer):

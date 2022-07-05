@@ -26,10 +26,10 @@ class UserViewSet(ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes_by_action = {
-        'list': [IsAdminUser],
+        'list': [AllowAny],
         'create': [AllowAny],
-        'retrieve': [IsAuthenticated],
-        'update': [IsAuthenticated],
+        'retrieve': [AllowAny],
+        'update': [AllowAny],
         'partial_update': [IsAuthenticated],
         'destroy': [IsAuthenticated],
         # 'bookmarks': [IsAuthenticated, IsOwnerOrReadOnly]
@@ -51,6 +51,23 @@ class UserViewSet(ModelViewSet):
     #     user = request.user
     #     serializer = BookmarkSerializer(user)
     #     return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+    # @action(detail=False, methods=['get'])
+    # def profile(self, request):
+    #     user = self.get_object()
+    #     serializer = PasswordSerializer(data=request.data)
+    #     if serializer.is_valid():
+    #         user.set_password(serializer.validated_data['password'])
+    #         user.save()
+    #         return Response({'status': 'password set'})
+    #     else:
+    #         return Response(serializer.errors,
+    #                         status=status.HTTP_400_BAD_REQUEST)
+    def get_object(self):
+        pk = self.kwargs['pk']
+        if pk == 'auth':
+            return self.request.user
+        return super().get_object()
 
     def get_permissions(self):
         try:
@@ -98,12 +115,12 @@ class LogInView(TokenObtainPairView):
 
 class ContactView(APIView):
     # permission_classes = [IsAuthenticated]
-    def post(self, request, format=None):
+    def post(self, request):
         serializer = ContactSerializer(data=request.data)
         if serializer.is_valid():
             email = serializer.validated_data['email']
-            subject = serializer.validated_data['subject']
-            message = serializer.validated_data['message']
+            subject = "Thanks for contacting us."
+            message = "This is an auto generated response to your email sent to us. Please do not reply to this email as it will not be received. This is to let you know that we have received your email and one of our representative will contact you soon."
             try:
                 send_mail(subject, message,
                           settings.EMAIL_HOST_USER, [email, ])

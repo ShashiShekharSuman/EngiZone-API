@@ -7,7 +7,7 @@ from users.models import User
 class Tag(models.Model):
     tag_name = models.CharField(max_length=50)
     tag_type = models.CharField(max_length=50)
-    tag_discription = models.TextField()
+    tag_description = models.TextField()
 
     def __str__(self):
         return self.tag_name

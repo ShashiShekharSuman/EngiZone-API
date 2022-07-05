@@ -1,6 +1,6 @@
 # from django.shortcuts import render
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
-from .models import Tag, Question, Solution, Comment, Vote
+from .models import Bookmark, Tag, Question, Solution, Comment, Vote
 from .pagination import QuestionPagination
 from .serializers import TagSerializer, QuestionSerializer, SolutionSerializer, CommentSerializer, VoteSerializer, BookmarkSerializer
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
@@ -226,6 +226,33 @@ class BookmarkViewSet(ModelViewSet):
         'partial_update': [IsAuthenticated, IsOwnerOrReadOnly],
         'destroy': [IsAuthenticated, IsOwnerOrReadOnly],
     }
+
+    def create(self, request, *args, **kwargs):
+        try:
+            bookmark = Bookmark.objects.get(
+                question=request.data.get('question'),
+                user=request.user
+            )
+            bookmark.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except Bookmark.DoesNotExist:
+            data = request.data
+            data['user'] = request.user.pk
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            self.perform_create(serializer)
+            headers = self.get_success_headers(serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+            # return super().create(request, *args, **kwargs)
+
+    def retrieve(self, request, pk):
+        try:
+            bookmark = Bookmark.objects.get(question=pk, user=request.user)
+            serializer = BookmarkSerializer(bookmark)
+            headers = self.get_success_headers(serializer.data)
+            return Response(serializer.data, status=status.HTTP_200_OK, headers=headers)
+        except Bookmark.DoesNotExist:
+            return Response(data={'detail': 'Not found.'}, status=status.HTTP_404_NOT_FOUND)
 
     def get_permissions(self):
         try:

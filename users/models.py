@@ -27,7 +27,7 @@ class User(AbstractUser):
 class Contact(models.Model):
     name = models.CharField(max_length=155)
     email = models.EmailField()
-    subject = models.CharField(max_length=255)
+    subject = models.CharField(max_length=255, default='')
     message = models.TextField()
 
     def __str__(self):

@@ -1,4 +1,4 @@
-from .views import TagViewSet, QuestionViewSet, SolutionViewSet, CommentViewSet, VoteViewSet
+from .views import TagViewSet, QuestionViewSet, SolutionViewSet, CommentViewSet, VoteViewSet, BookmarkViewSet
 from rest_framework.routers import DefaultRouter
 
 
@@ -23,6 +23,7 @@ router.register(r'problems', QuestionViewSet, basename='problem')
 router.register(r'solutions', SolutionViewSet, basename='solution')
 router.register(r'comments', CommentViewSet, basename='comments')
 router.register(r'votes', VoteViewSet, basename='votes')
+router.register(r'bookmarks', BookmarkViewSet, basename='bookmarks')
 
 urlpatterns = router.urls
 # urlpatterns += [

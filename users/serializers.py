@@ -1,6 +1,8 @@
 from asyncore import read
-from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import Serializer, ModelSerializer
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
+# from api.problems.serializers import QuestionSerializer
 from .models import User, Contact
 
 
@@ -20,6 +22,11 @@ class UserSerializer(ModelSerializer):
         user.set_password(password)
         user.save()
         return user
+
+
+class ProfileSerializer(Serializer):
+    user = UserSerializer()
+    # questions = QuestionSerializer(quaryse many=True)
 
 
 class LogInSerializer(TokenObtainPairSerializer):
