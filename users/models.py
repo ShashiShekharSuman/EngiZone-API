@@ -17,7 +17,7 @@ class User(AbstractUser):
                               blank=True, choices=GENDER_CHOICES)
     phone_no = PhoneNumberField(null=True, blank=False, unique=True)
     # fields = ['id', 'email', 'password', 'last_login', 'is_superuser', 'username', 'first_name', 'last_name', 'is_active',]
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ['first_name']
     USERNAME_FIELD = 'email'
 
     def age(self):

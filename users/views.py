@@ -117,15 +117,6 @@ class ContactView(APIView):
     # permission_classes = [IsAuthenticated]
     def post(self, request):
         serializer = ContactSerializer(data=request.data)
-        if serializer.is_valid():
-            email = serializer.validated_data['email']
-            subject = "Thanks for contacting us."
-            message = "This is an auto generated response to your email sent to us. Please do not reply to this email as it will not be received. This is to let you know that we have received your email and one of our representative will contact you soon."
-            try:
-                send_mail(subject, message,
-                          settings.EMAIL_HOST_USER, [email, ])
-                serializer.save()
-            except BadHeaderError:
-                return Response({'detail': 'Invalid Header Found'}, status=status.HTTP_400_BAD_REQUEST)
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response({'detail': 'Invalid Data'}, status=status.HTTP_400_BAD_REQUEST)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
