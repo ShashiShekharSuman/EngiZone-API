@@ -220,7 +220,7 @@ class BookmarkViewSet(ModelViewSet):
 
     permission_classes_by_action = {
         'list': [IsAdminUser],
-        'create': [AllowAny],
+        'create': [IsAuthenticated],
         'retrieve': [IsAuthenticated, IsOwnerOrReadOnly],
         'update': [IsAuthenticated, IsOwnerOrReadOnly],
         'partial_update': [IsAuthenticated, IsOwnerOrReadOnly],
